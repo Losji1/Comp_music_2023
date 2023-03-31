@@ -6,5 +6,6 @@ What I am eager about is, is to find new corelations or insights that you can no
 
 Additionally, the 2010s marked a time of significant social and cultural change, with movements like Black Lives Matter and Me Too having a major impact on the music industry and the messages conveyed through music. This could make the corpus of music from the 2010s particularly interesting for researchers interested in studying the intersection of music and social movements.
 
-![Differences](./Energy vs. Valence.png)
+![Alt Text](https://github.com/Losji1/Comp_music_2023/blob/main/Energy%20vs.%20Valence.png?raw=true)
+
 

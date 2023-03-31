@@ -8,4 +8,6 @@ Additionally, the 2010s marked a time of significant social and cultural change,
 
 ![Alt Text](https://github.com/Losji1/Comp_music_2023/blob/main/Energy%20vs.%20Valence.png?raw=true)
 
+![Alt Text](https://github.com/Losji1/Comp_music_2023/blob/main/tempo_distribution.png?raw=true)
+
 

@@ -1,5 +1,5 @@
 ---
-title: "Untitled"
+title: "Dashboard Computational-Musicology 2023"
 output: 
   flexdashboard::flex_dashboard:
     storyboard: true
@@ -9,27 +9,47 @@ output:
 
 ```{r setup, include=FALSE}
 library(flexdashboard)
+library(tidyr)
+library(remotes)
+library(spotifyr)
+library(usethis)
+library(ggplot2)
+library(dplyr)
+all_out_2010 <- get_playlist_audio_features("", "37i9dQZF1DX5Ejj0EkURtP")
+all_out_2000 <- get_playlist_audio_features("", "37i9dQZF1DX4o1oenSJRJd")
 ```
 
-Column {data-width=650}
------------------------------------------------------------------------
+### Introduction
+The corpora I chose are playlists from Spotify. These are playlists I really often listen to when I am studying or travelling for example. It consists of a lot of different kind of music and everytime it has something I really enjoy listening to. The playlists are the Spotify playlist called "ALL OUT OF 2010s" and "ALL OUT OF 2000s". I think there is alot of different songs/artists/genres etc. There are a few artists who have released very big and many songs and appear more often in this list so that will also lead to interesting results. The artists are mainly Adele, Justin Bieber and Shawn Mendes
 
-### Chart A
+What I am eager about is, is to find new corelations or insights that you can not see or hear when you are listening to the playlist. The 2010s saw the emergence of new genres, such as trap and EDM, as well as the continued popularity of established genres like pop, rock, and hip-hop. This diversity of musical styles offers a rich and varied corpus for analysis and exploration.
+
+Additionally, the 2010s marked a time of significant social and cultural change, with movements like Black Lives Matter and Me Too having a major impact on the music industry and the messages conveyed through music. This could make the corpus of music from the 2010s particularly interesting for researchers interested in studying the intersection of music and social movements.
+
+
+### Week 7
+
+```{r}
+ggplot() +
+  geom_density(data = all_out_2010, aes(x=tempo, fill="All Out 2010"), alpha=0.5) +
+  geom_density(data = all_out_2000, aes(x=tempo, fill="All Out 2000"), alpha=0.5) +
+  labs(title="Tempo Distribution", x="Tempo", y="Density") +
+  scale_fill_manual(values=c("blue", "green"))
+
+ggplot() +
+  geom_point(data = all_out_2010, aes(x=energy, y=valence, color="All Out 2010"), alpha=0.5) +
+  geom_point(data = all_out_2000, aes(x=energy, y=valence, color="All Out 2000"), alpha=0.5) +
+  labs(title="Energy vs. Valence", x="Energy", y="Valence") +
+  scale_color_manual(values=c("blue", "green"))
+```
+
+### Week 8
 
 ```{r}
 
 ```
 
-Column {data-width=350}
------------------------------------------------------------------------
-
-### Chart B
-
-```{r}
-
-```
-
-### Chart C
+### Week 9
 
 ```{r}
 

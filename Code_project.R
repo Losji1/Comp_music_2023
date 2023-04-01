@@ -4,6 +4,7 @@ library(spotifyr)
 library(usethis)
 library(ggplot2)
 library(dplyr)
+library(seewave)
 
 all_out_2010 <- get_playlist_audio_features("", "37i9dQZF1DX5Ejj0EkURtP")
 all_out_2000 <- get_playlist_audio_features("", "37i9dQZF1DX4o1oenSJRJd")

@@ -72,7 +72,7 @@ What I am eager about is, is to find new correlations or insights that you can n
 <h3>Outliers</h3>
 To find any correlations or other insights into these corpora, we focus on the two longest songs in both playlists. This is because this has the greatest chance for the difference in notes or other changes over the years.
 
-Consequently, the two songs discussed in this dashboard are "Mirrors by Justin Timberlake" from the 2000s and "Stan by Eminem" from the 2010s. I use these songs for all my plots and visualizations and share my findings about them.
+Consequently, the two songs discussed in this dashboard are "Mirrors" by Justin Timberlake from the 2000s and "Stan" by Eminem from the 2010s. I use these songs for all my plots and visualizations and share my findings about them.
 
 <h3>Graphs</h3>
 But first, we briefly compare the two corpora in the two plots here on the left. We see that, in general, the songs from 2010s have a faster Tempo. This is also expected with the rise of house music and EDM. What is very noticeable and remarkable is that the energy of the 2010 playlist is on average lower than that of the songs from the 2000 playlist.

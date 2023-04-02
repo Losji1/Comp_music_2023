@@ -29,11 +29,13 @@ all_out_2000 <- get_playlist_audio_features("", "37i9dQZF1DX4o1oenSJRJd")
 ```
 
 
-Introduction about the corpus
+Introduction 
 ================
 
 Column {data-width= 400}
 ----------------------
+
+### Information about the corpus and some graphs
 
 The corpora I chose are playlists from Spotify. These are playlists I really often listen to when I am studying or travelling for example. It consists of a lot of different kind of music and everytime it has something I really enjoy listening to. The playlists are the Spotify playlist called "ALL OUT OF 2010s" and "ALL OUT OF 2000s". I think there is alot of different songs/artists/genres etc. There are a few artists who have released very big and many songs and appear more often in this list so that will also lead to interesting results. The artists are mainly Adele, Justin Bieber and Shawn Mendes
 
@@ -63,13 +65,13 @@ ggplot(height=600, width=5600) +
 
 
 
-Two chromagrams of the longest song in the two corpora
+Chromagrams
 ============================================
 
 Column {data-width= 400}
 ----------------------
 
-### Iintersting things
+### Text about the chromagrams
 text about the imagess
 Dit is allemaal wat bullshit om ff te kijken hoe dit er uit zie t watn ik heb geen idee lallamlaflasdfioasfjiosdjfio
 
@@ -128,13 +130,13 @@ stan |>
 ```
 
 
-Two ceptograms of the longest song in the two corpora
+Ceptograms
 ============================================
 
 Column {data-width= 400}
 ----------------------
 
-### Iintersting things
+### Text about the ceptograms
 text about the imagess
 Dit is allemaal wat bullshit om ff te kijken hoe dit er uit zie t watn ik heb geen idee lallamlaflasdfioasfjiosdjfio
 
@@ -223,7 +225,7 @@ Self-Similarity Matrices
 Column {data-width= 400}
 ----------------------
 
-### Iintersting things
+### Text about the SSM
 text about the imagess
 Dit is allemaal wat bullshit om ff te kijken hoe dit er uit zie t watn ik heb geen idee lallamlaflasdfioasfjiosdjfio
 
@@ -315,7 +317,7 @@ Chordograms
 Column {data-width= 400}
 ----------------------
 
-### Iintersting things
+### Text about the chordograms
 text about the imagess
 Dit is allemaal wat bullshit om ff te kijken hoe dit er uit zie t watn ik heb geen idee lallamlaflasdfioasfjiosdjfio
 
@@ -478,15 +480,13 @@ stan |>
   labs(x = "Time (s)", y = "")
 ```
 
-
-
 Tempograms/Dendrograms
 ==================================
 
 Column {data-width= 400}
 ----------------------
 
-### Iintersting things
+### Text about the images
 text about the imagess
 Dit is allemaal wat bullshit om ff te kijken hoe dit er uit zie t watn ik heb geen idee lallamlaflasdfioasfjiosdjfio
 
@@ -523,7 +523,7 @@ stan |>
 
 ```
 
-Conclusion and end toughts
+Conclusion and Thoughts
 ==================================
 
 

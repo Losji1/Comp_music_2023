@@ -11,6 +11,10 @@ output:
 
 ```{r setup, include=FALSE}
 library(flexdashboard)
+library(tidymodels)
+library(tibble)
+library(ggdendro)
+library(stringr)
 library(purrr)
 library(scales)
 library(tidyr)
@@ -476,7 +480,7 @@ stan |>
 
 
 
-Tempograms/Dendograms
+Tempograms/Dendrograms
 ==================================
 
 Column {data-width= 400}
@@ -512,6 +516,11 @@ stan |>
   scale_fill_viridis_c(guide = "none") +
   labs(x = "Time (s)", y = "Tempo (BPM)") +
   theme_classic()
+```
+
+### Dendrogram clustering
+```{r}
+
 ```
 
 Conclusion and end toughts

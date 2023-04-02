@@ -11,6 +11,7 @@ output:
 
 ```{r setup, include=FALSE}
 library(flexdashboard)
+library(plotly)
 library(tidymodels)
 library(tibble)
 library(ggdendro)
@@ -28,7 +29,6 @@ all_out_2010 <- get_playlist_audio_features("", "37i9dQZF1DX5Ejj0EkURtP")
 all_out_2000 <- get_playlist_audio_features("", "37i9dQZF1DX4o1oenSJRJd")
 ```
 
-
 Introduction 
 ================
 
@@ -37,20 +37,26 @@ Column {.tabset}
 
 ### Tempo Distribution differences
 ```{r}
-ggplot(height=400, width=500) +
+plot <- ggplot(height=400, width=500) +
   geom_density(data = all_out_2010, aes(x=tempo, fill="All Out 2010s"), alpha=0.5) +
   geom_density(data = all_out_2000, aes(x=tempo, fill="All Out 2000s"), alpha=0.5) +
   labs(title="Tempo Distribution", x="Tempo", y="Density") +
   scale_fill_manual(values=c("blue", "green"))
+
+# Convert the ggplot object to a plotly object
+plot <- ggplotly(plot)
+plot
 ```
 
 ### Energy vs Valence
 ```{r}
-ggplot(height=600, width=5600) +
-  geom_point(data = all_out_2010, aes(x=energy, y=valence, color="All Out 2010s"), alpha=0.5) +
-  geom_point(data = all_out_2000, aes(x=energy, y=valence, color="All Out 2000s"), alpha=0.5) +
-  labs(title="Energy vs. Valence", x="Energy", y="Valence") +
-  scale_color_manual(values=c("blue", "green"))
+ggplotly(
+  ggplot() +
+    geom_point(data = all_out_2010, aes(x=energy, y=valence, color="All Out 2010"), alpha=0.5) +
+    geom_point(data = all_out_2000, aes(x=energy, y=valence, color="All Out 2000"), alpha=0.5) +
+    labs(title="Energy vs. Valence", x="Energy", y="Valence") +
+    scale_color_manual(values=c("blue", "green"))
+)
 ```
 
 Column {data-width= 400}
@@ -58,15 +64,18 @@ Column {data-width= 400}
 
 ### Information about the corpus and some graphs
 
-<h2>Corpus information</h2>
-The corpora I chose are playlists from Spotify. These are playlists I really often listen to when I am studying or travelling for example. It consists of a lot of different kind of music and everytime it has something I really enjoy listening to. The playlists are the Spotify playlist called "ALL OUT OF 2010s" and "ALL OUT OF 2000s". I think there is alot of different songs/artists/genres etc. There are a few artists who have released very big and many songs and appear more often in this list so that will also lead to interesting results. The artists are mainly Adele, Justin Bieber and Shawn Mendes
+<h2>Corpus information and motivation</h2>
+The corpora I chose are playlists from Spotify. These are playlists I really often listen to when I am studying or travelling for example. It consists of a lot of different kind of music and everytime it has something I really enjoy listening to. The playlists are the Spotify playlist called "ALL OUT OF 2010s" and "ALL OUT OF 2000s". I think there is alot of different songs/artists/genres etc. There are a few artists who have released very big and many songs and appear more often in this list so that will also lead to interesting results. The artists are mainly Adele, Justin Bieber, Shawn Mendes and Eminem. 
 
-What I am eager about is, is to find new corelations or insights that you can not see or hear when you are listening to the playlist. The 2010s saw the emergence of new genres, such as trap and EDM, as well as the continued popularity of established genres like pop, rock, and hip-hop. This diversity of musical styles offers a rich and varied corpus for analysis and exploration.
-
-Additionally, the 2010s marked a time of significant social and cultural change, with movements like Black Lives Matter and Me Too having a major impact on the music industry and the messages conveyed through music. This could make the corpus of music from the 2010s particularly interesting for researchers interested in studying the intersection of music and social movements.
+What I am eager about is, is to find new correlations or insights that you can not see or hear when you are listening to the playlist. The 2010s saw the emergence of new genres, such as trap and EDM, as well as the continued popularity of established genres like pop, rock, and hip-hop. This diversity of musical styles offers a rich and varied corpus for analysis and exploration.
 
 <h3>Outliers</h3>
+To find any correlations or other insights into these corpora, we focus on the two longest songs in both playlists. This is because this has the greatest chance for the difference in notes or other changes over the years.
 
+Consequently, the two songs discussed in this dashboard are "Mirros by Justin Timberlake" from the 2000s and "Stan by Eminem" from the 2010s. I use these songs for all my plots and visualizations and share my findings about them.
+
+<h3>Graphs</h3>
+But first, we briefly compare the two corpora in the two plots here on the left. We see that, in general, the songs from 2010s have a faster pace. This is also expected with the rise of house music and EDM. What is very noticeable is that the energy of the 2010 playlist is on average lower than that of den songs from the 2000 playlist.
 
 Chromagrams
 ============================================
@@ -573,7 +582,9 @@ I also have a problem with the tempograms of the songs, because if I load the co
 
 Conclusion and Thoughts
 ==================================
-The first thing to conclude is that it is not easy with these corpora to see very big differences.
+What we can conclude from all the plots and the dashboard is that while there are differences between the two playlists and years, there is too little time difference to see these differences properly and say certain conclusions. However, there are clear differences between the two tracks I used for this dashboard.
+
+Perhaps for future work, clear differences can also be seen between the shortest two songs of the two playlists. In addition, it might also be useful to take the "all out of 80s" playlist instead of the 2000s playlist. There are many more years between the 80s and the 2010s, and thus the differences will probably be easier to see. This is an interesting possibility for a follow-up study.
 
 
 

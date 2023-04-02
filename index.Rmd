@@ -32,17 +32,6 @@ all_out_2000 <- get_playlist_audio_features("", "37i9dQZF1DX4o1oenSJRJd")
 Introduction 
 ================
 
-Column {data-width= 400}
-----------------------
-
-### Information about the corpus and some graphs
-
-The corpora I chose are playlists from Spotify. These are playlists I really often listen to when I am studying or travelling for example. It consists of a lot of different kind of music and everytime it has something I really enjoy listening to. The playlists are the Spotify playlist called "ALL OUT OF 2010s" and "ALL OUT OF 2000s". I think there is alot of different songs/artists/genres etc. There are a few artists who have released very big and many songs and appear more often in this list so that will also lead to interesting results. The artists are mainly Adele, Justin Bieber and Shawn Mendes
-
-What I am eager about is, is to find new corelations or insights that you can not see or hear when you are listening to the playlist. The 2010s saw the emergence of new genres, such as trap and EDM, as well as the continued popularity of established genres like pop, rock, and hip-hop. This diversity of musical styles offers a rich and varied corpus for analysis and exploration.
-
-Additionally, the 2010s marked a time of significant social and cultural change, with movements like Black Lives Matter and Me Too having a major impact on the music industry and the messages conveyed through music. This could make the corpus of music from the 2010s particularly interesting for researchers interested in studying the intersection of music and social movements.
-
 Column {.tabset}
 --------------------------------
 
@@ -64,15 +53,20 @@ ggplot(height=600, width=5600) +
   scale_color_manual(values=c("blue", "green"))
 ```
 
-Chromagrams
-============================================
-
 Column {data-width= 400}
 ----------------------
 
-### Text about the chromagrams
-text about the imagess
-Dit is allemaal wat bullshit om ff te kijken hoe dit er uit zie t watn ik heb geen idee lallamlaflasdfioasfjiosdjfio
+### Information about the corpus and some graphs
+
+The corpora I chose are playlists from Spotify. These are playlists I really often listen to when I am studying or travelling for example. It consists of a lot of different kind of music and everytime it has something I really enjoy listening to. The playlists are the Spotify playlist called "ALL OUT OF 2010s" and "ALL OUT OF 2000s". I think there is alot of different songs/artists/genres etc. There are a few artists who have released very big and many songs and appear more often in this list so that will also lead to interesting results. The artists are mainly Adele, Justin Bieber and Shawn Mendes
+
+What I am eager about is, is to find new corelations or insights that you can not see or hear when you are listening to the playlist. The 2010s saw the emergence of new genres, such as trap and EDM, as well as the continued popularity of established genres like pop, rock, and hip-hop. This diversity of musical styles offers a rich and varied corpus for analysis and exploration.
+
+Additionally, the 2010s marked a time of significant social and cultural change, with movements like Black Lives Matter and Me Too having a major impact on the music industry and the messages conveyed through music. This could make the corpus of music from the 2010s particularly interesting for researchers interested in studying the intersection of music and social movements.
+
+
+Chromagrams
+============================================
 
 Column {.tabset}
 --------------------------------
@@ -128,8 +122,96 @@ stan |>
   scale_fill_viridis_c()
 ```
 
+Column {data-width= 400}
+----------------------
+
+### Text about the chromagrams
+text about the imagess
+Dit is allemaal wat bullshit om ff te kijken hoe dit er uit zie t watn ik heb geen idee lallamlaflasdfioasfjiosdjfio
+
+
+
 Ceptograms
 ============================================
+
+Column {.tabset}
+--------------------------------
+
+### Mirrors by Justin Timberlake
+```{r}
+mirrors <-
+  get_tidy_audio_analysis("4rHZZAmHpZrA3iH5zx8frV") |> # Change URI.
+  compmus_align(bars, segments) |>                     # Change `bars`
+  select(bars) |>                                      #   in all three
+  unnest(bars) |>                                      #   of these lines.
+  mutate(
+    pitches =
+      map(segments,
+        compmus_summarise, pitches,
+        method = "rms", norm = "euclidean"              # Change summary & norm.
+      )
+  ) |>
+  mutate(
+    timbre =
+      map(segments,
+        compmus_summarise, timbre,
+        method = "rms", norm = "euclidean"              # Change summary & norm.
+      )
+  )
+
+mirrors |>
+  compmus_gather_timbre() |>
+  ggplot(
+    aes(
+      x = start + duration / 2,
+      width = duration,
+      y = basis,
+      fill = value
+    )
+  ) +
+  geom_tile() +
+  labs(x = "Time (s)", y = NULL, fill = "Magnitude") +
+  scale_fill_viridis_c() +                              
+  theme_classic()
+```
+
+### Stan by Eminem
+```{r}
+stan <-
+  get_tidy_audio_analysis("3UmaczJpikHgJFyBTAJVoz") |> # Change URI.
+  compmus_align(bars, segments) |>                     # Change `bars`
+  select(bars) |>                                      #   in all three
+  unnest(bars) |>                                      #   of these lines.
+  mutate(
+    pitches =
+      map(segments,
+        compmus_summarise, pitches,
+        method = "rms", norm = "euclidean"              # Change summary & norm.
+      )
+  ) |>
+  mutate(
+    timbre =
+      map(segments,
+        compmus_summarise, timbre,
+        method = "rms", norm = "euclidean"              # Change summary & norm.
+      )
+  )
+
+stan |>
+  compmus_gather_timbre() |>
+  ggplot(
+    aes(
+      x = start + duration / 2,
+      width = duration,
+      y = basis,
+      fill = value
+    )
+  ) +
+  geom_tile() +
+  labs(x = "Time (s)", y = NULL, fill = "Magnitude") +
+  scale_fill_viridis_c() +                              
+  theme_classic()
+```
 
 Column {data-width= 400}
 ----------------------
@@ -138,6 +220,10 @@ Column {data-width= 400}
 text about the imagess
 Dit is allemaal wat bullshit om ff te kijken hoe dit er uit zie t watn ik heb geen idee lallamlaflasdfioasfjiosdjfio
 
+
+Self-Similarity Matrices
+==============================
+
 Column {.tabset}
 --------------------------------
 
@@ -164,19 +250,21 @@ mirrors <-
   )
 
 mirrors |>
-  compmus_gather_timbre() |>
+  compmus_self_similarity(timbre, "cosine") |> 
   ggplot(
     aes(
-      x = start + duration / 2,
-      width = duration,
-      y = basis,
-      fill = value
+      x = xstart + xduration / 2,
+      width = xduration,
+      y = ystart + yduration / 2,
+      height = yduration,
+      fill = d
     )
   ) +
   geom_tile() +
-  labs(x = "Time (s)", y = NULL, fill = "Magnitude") +
-  scale_fill_viridis_c() +                              
-  theme_classic()
+  coord_fixed() +
+  scale_fill_viridis_c(guide = "none") +
+  theme_classic() +
+  labs(x = "", y = "")
 ```
 
 ### Stan by Eminem
@@ -202,24 +290,22 @@ stan <-
   )
 
 stan |>
-  compmus_gather_timbre() |>
+  compmus_self_similarity(timbre, "cosine") |> 
   ggplot(
     aes(
-      x = start + duration / 2,
-      width = duration,
-      y = basis,
-      fill = value
+      x = xstart + xduration / 2,
+      width = xduration,
+      y = ystart + yduration / 2,
+      height = yduration,
+      fill = d
     )
   ) +
   geom_tile() +
-  labs(x = "Time (s)", y = NULL, fill = "Magnitude") +
-  scale_fill_viridis_c() +                              
-  theme_classic()
+  coord_fixed() +
+  scale_fill_viridis_c(guide = "none") +
+  theme_classic() +
+  labs(x = "", y = "")
 ```
-
-
-Self-Similarity Matrices
-==============================
 
 Column {data-width= 400}
 ----------------------
@@ -228,98 +314,9 @@ Column {data-width= 400}
 text about the imagess
 Dit is allemaal wat bullshit om ff te kijken hoe dit er uit zie t watn ik heb geen idee lallamlaflasdfioasfjiosdjfio
 
-Column {.tabset}
---------------------------------
-
-### Mirrors by Justin Timberlake
-```{r}
-mirrors <-
-  get_tidy_audio_analysis("4rHZZAmHpZrA3iH5zx8frV") |> # Change URI.
-  compmus_align(bars, segments) |>                     # Change `bars`
-  select(bars) |>                                      #   in all three
-  unnest(bars) |>                                      #   of these lines.
-  mutate(
-    pitches =
-      map(segments,
-        compmus_summarise, pitches,
-        method = "rms", norm = "euclidean"              # Change summary & norm.
-      )
-  ) |>
-  mutate(
-    timbre =
-      map(segments,
-        compmus_summarise, timbre,
-        method = "rms", norm = "euclidean"              # Change summary & norm.
-      )
-  )
-
-mirrors |>
-  compmus_self_similarity(timbre, "cosine") |> 
-  ggplot(
-    aes(
-      x = xstart + xduration / 2,
-      width = xduration,
-      y = ystart + yduration / 2,
-      height = yduration,
-      fill = d
-    )
-  ) +
-  geom_tile() +
-  coord_fixed() +
-  scale_fill_viridis_c(guide = "none") +
-  theme_classic() +
-  labs(x = "", y = "")
-```
-
-### Stan by Eminem
-```{r}
-stan <-
-  get_tidy_audio_analysis("3UmaczJpikHgJFyBTAJVoz") |> # Change URI.
-  compmus_align(bars, segments) |>                     # Change `bars`
-  select(bars) |>                                      #   in all three
-  unnest(bars) |>                                      #   of these lines.
-  mutate(
-    pitches =
-      map(segments,
-        compmus_summarise, pitches,
-        method = "rms", norm = "euclidean"              # Change summary & norm.
-      )
-  ) |>
-  mutate(
-    timbre =
-      map(segments,
-        compmus_summarise, timbre,
-        method = "rms", norm = "euclidean"              # Change summary & norm.
-      )
-  )
-
-stan |>
-  compmus_self_similarity(timbre, "cosine") |> 
-  ggplot(
-    aes(
-      x = xstart + xduration / 2,
-      width = xduration,
-      y = ystart + yduration / 2,
-      height = yduration,
-      fill = d
-    )
-  ) +
-  geom_tile() +
-  coord_fixed() +
-  scale_fill_viridis_c(guide = "none") +
-  theme_classic() +
-  labs(x = "", y = "")
-```
 
 Chordograms
 =====================================
-
-Column {data-width= 400}
-----------------------
-
-### Text about the chordograms
-text about the imagess
-Dit is allemaal wat bullshit om ff te kijken hoe dit er uit zie t watn ik heb geen idee lallamlaflasdfioasfjiosdjfio
 
 Column {.tabset}
 --------------------------------
@@ -472,15 +469,17 @@ stan |>
   labs(x = "Time (s)", y = "")
 ```
 
-Tempograms/Dendrograms
-==================================
-
 Column {data-width= 400}
 ----------------------
 
-### Text about the dendrogram and tempograms
+### Text about the chordograms
 text about the imagess
 Dit is allemaal wat bullshit om ff te kijken hoe dit er uit zie t watn ik heb geen idee lallamlaflasdfioasfjiosdjfio
+
+
+
+Tempograms/Dendrograms
+==================================
 
 Column {.tabset}
 --------------------------------
@@ -567,11 +566,17 @@ out2010_dist |>
 #  theme_classic()
 ```
 
+Column {data-width= 400}
+----------------------
+
+### Text about the dendrogram and tempograms
+text about the imagess
+Dit is allemaal wat bullshit om ff te kijken hoe dit er uit zie t watn ik heb geen idee lallamlaflasdfioasfjiosdjfio
+
 
 Conclusion and Thoughts
 ==================================
-
-
+The first thing to conclude is that it is not easy with these corpora to see very big differences.
 
 
 

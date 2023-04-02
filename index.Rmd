@@ -1,11 +1,13 @@
 ---
-title: "Dashboard Computational-Musicology 2023"
+title: "Computational Musicology Dashboard 2023"
 output: 
   flexdashboard::flex_dashboard:
     storyboard: true
+    social: menu
+    source: embed
     orientation: columns
-    vertical_layout: fill
 ---
+
 
 ```{r setup, include=FALSE}
 library(flexdashboard)
@@ -22,40 +24,64 @@ all_out_2010 <- get_playlist_audio_features("", "37i9dQZF1DX5Ejj0EkURtP")
 all_out_2000 <- get_playlist_audio_features("", "37i9dQZF1DX4o1oenSJRJd")
 ```
 
-### Introduction
+
+Introduction about the corpus
+================
+
+Column {data-width= 400}
+----------------------
+
 The corpora I chose are playlists from Spotify. These are playlists I really often listen to when I am studying or travelling for example. It consists of a lot of different kind of music and everytime it has something I really enjoy listening to. The playlists are the Spotify playlist called "ALL OUT OF 2010s" and "ALL OUT OF 2000s". I think there is alot of different songs/artists/genres etc. There are a few artists who have released very big and many songs and appear more often in this list so that will also lead to interesting results. The artists are mainly Adele, Justin Bieber and Shawn Mendes
 
 What I am eager about is, is to find new corelations or insights that you can not see or hear when you are listening to the playlist. The 2010s saw the emergence of new genres, such as trap and EDM, as well as the continued popularity of established genres like pop, rock, and hip-hop. This diversity of musical styles offers a rich and varied corpus for analysis and exploration.
 
 Additionally, the 2010s marked a time of significant social and cultural change, with movements like Black Lives Matter and Me Too having a major impact on the music industry and the messages conveyed through music. This could make the corpus of music from the 2010s particularly interesting for researchers interested in studying the intersection of music and social movements.
 
-
-### Week 7
-
+Column {.tabset}
+--------------------------------
+### Tempo Distribution differences
 ```{r}
-ggplot() +
-  geom_density(data = all_out_2010, aes(x=tempo, fill="All Out 2010"), alpha=0.5) +
-  geom_density(data = all_out_2000, aes(x=tempo, fill="All Out 2000"), alpha=0.5) +
+ggplot(height=400, width=500) +
+  geom_density(data = all_out_2010, aes(x=tempo, fill="All Out 2010s"), alpha=0.5) +
+  geom_density(data = all_out_2000, aes(x=tempo, fill="All Out 2000s"), alpha=0.5) +
   labs(title="Tempo Distribution", x="Tempo", y="Density") +
   scale_fill_manual(values=c("blue", "green"))
+```
 
-ggplot() +
-  geom_point(data = all_out_2010, aes(x=energy, y=valence, color="All Out 2010"), alpha=0.5) +
-  geom_point(data = all_out_2000, aes(x=energy, y=valence, color="All Out 2000"), alpha=0.5) +
+### Energy vs Valence
+```{r}
+ggplot(height=600, width=5600) +
+  geom_point(data = all_out_2010, aes(x=energy, y=valence, color="All Out 2010s"), alpha=0.5) +
+  geom_point(data = all_out_2000, aes(x=energy, y=valence, color="All Out 2000s"), alpha=0.5) +
   labs(title="Energy vs. Valence", x="Energy", y="Valence") +
   scale_color_manual(values=c("blue", "green"))
 ```
 
-### Week 8
+
+
+Two chromagrams of the longest song in the two corpora
+============================================
+
+Column {data-width= 400}
+----------------------
+
+### Iintersting things
+text about the imagess
+Dit is allemaal wat bullshit om ff te kijken hoe dit er uit zie t watn ik heb geen idee lallamlaflasdfioasfjiosdjfio
+
+Column {.tabset}
+--------------------------------
+
+### Mirrors by Justin Timberlake
 
 ```{r}
-wood <-
-  get_tidy_audio_analysis("6IQILcYkN2S2eSu5IHoPEH") |>
+mirrors <-
+  get_tidy_audio_analysis("4rHZZAmHpZrA3iH5zx8frV") |>
   select(segments) |>
   unnest(segments) |>
   select(start, duration, pitches)
 
-wood |>
+mirrors |>
   mutate(pitches = map(pitches, compmus_normalise, "euclidean")) |>
   compmus_gather_chroma() |> 
   ggplot(
@@ -70,34 +96,69 @@ wood |>
   labs(x = "Time (s)", y = NULL, fill = "Magnitude") +
   theme_minimal() +
   scale_fill_viridis_c()
-
-
 ```
 
-### Week 9
-
+### Stan by Eminem
 ```{r}
-bzt <-
-  get_tidy_audio_analysis("5ZLkc5RY1NM4FtGWEd6HOE") |>
-  compmus_align(bars, segments) |>                     
-  select(bars) |>                                     
-  unnest(bars) |>                                      
+stan <-
+  get_tidy_audio_analysis("3UmaczJpikHgJFyBTAJVoz") |>
+  select(segments) |>
+  unnest(segments) |>
+  select(start, duration, pitches)
+
+stan |>
+  mutate(pitches = map(pitches, compmus_normalise, "euclidean")) |>
+  compmus_gather_chroma() |> 
+  ggplot(
+    aes(
+      x = start + duration / 2,
+      width = duration,
+      y = pitch_class,
+      fill = value
+    )
+  ) +
+  geom_tile() +
+  labs(x = "Time (s)", y = NULL, fill = "Magnitude") +
+  theme_minimal() +
+  scale_fill_viridis_c()
+```
+
+
+Two ceptograms of the longest song in the two corpora
+============================================
+
+Column {data-width= 400}
+----------------------
+
+### Iintersting things
+text about the imagess
+Dit is allemaal wat bullshit om ff te kijken hoe dit er uit zie t watn ik heb geen idee lallamlaflasdfioasfjiosdjfio
+
+Column {.tabset}
+--------------------------------
+### Mirrors by Justin Timberlake
+```{r}
+mirrors <-
+  get_tidy_audio_analysis("4rHZZAmHpZrA3iH5zx8frV") |> # Change URI.
+  compmus_align(bars, segments) |>                     # Change `bars`
+  select(bars) |>                                      #   in all three
+  unnest(bars) |>                                      #   of these lines.
   mutate(
     pitches =
       map(segments,
         compmus_summarise, pitches,
-        method = "rms", norm = "euclidean"               
+        method = "rms", norm = "euclidean"              # Change summary & norm.
       )
   ) |>
   mutate(
     timbre =
       map(segments,
         compmus_summarise, timbre,
-        method = "rms", norm = "euclidean"              
+        method = "rms", norm = "euclidean"              # Change summary & norm.
       )
   )
 
-bzt |>
+mirrors |>
   compmus_gather_timbre() |>
   ggplot(
     aes(
@@ -111,9 +172,82 @@ bzt |>
   labs(x = "Time (s)", y = NULL, fill = "Magnitude") +
   scale_fill_viridis_c() +                              
   theme_classic()
+```
 
-#Code for the SSM
-bzt |>
+### Stan by Eminem
+```{r}
+stan <-
+  get_tidy_audio_analysis("3UmaczJpikHgJFyBTAJVoz") |> # Change URI.
+  compmus_align(bars, segments) |>                     # Change `bars`
+  select(bars) |>                                      #   in all three
+  unnest(bars) |>                                      #   of these lines.
+  mutate(
+    pitches =
+      map(segments,
+        compmus_summarise, pitches,
+        method = "rms", norm = "euclidean"              # Change summary & norm.
+      )
+  ) |>
+  mutate(
+    timbre =
+      map(segments,
+        compmus_summarise, timbre,
+        method = "rms", norm = "euclidean"              # Change summary & norm.
+      )
+  )
+
+stan |>
+  compmus_gather_timbre() |>
+  ggplot(
+    aes(
+      x = start + duration / 2,
+      width = duration,
+      y = basis,
+      fill = value
+    )
+  ) +
+  geom_tile() +
+  labs(x = "Time (s)", y = NULL, fill = "Magnitude") +
+  scale_fill_viridis_c() +                              
+  theme_classic()
+```
+
+
+Self-Similarity Matrices
+==============================
+
+Column {data-width= 400}
+----------------------
+
+### Iintersting things
+text about the imagess
+Dit is allemaal wat bullshit om ff te kijken hoe dit er uit zie t watn ik heb geen idee lallamlaflasdfioasfjiosdjfio
+
+Column {.tabset}
+--------------------------------
+### Mirrors by Justin Timberlake
+```{r}
+mirrors <-
+  get_tidy_audio_analysis("4rHZZAmHpZrA3iH5zx8frV") |> # Change URI.
+  compmus_align(bars, segments) |>                     # Change `bars`
+  select(bars) |>                                      #   in all three
+  unnest(bars) |>                                      #   of these lines.
+  mutate(
+    pitches =
+      map(segments,
+        compmus_summarise, pitches,
+        method = "rms", norm = "euclidean"              # Change summary & norm.
+      )
+  ) |>
+  mutate(
+    timbre =
+      map(segments,
+        compmus_summarise, timbre,
+        method = "rms", norm = "euclidean"              # Change summary & norm.
+      )
+  )
+
+mirrors |>
   compmus_self_similarity(timbre, "cosine") |> 
   ggplot(
     aes(
@@ -131,7 +265,66 @@ bzt |>
   labs(x = "", y = "")
 ```
 
-### Week 10
+### Stan by Eminem
+```{r}
+stan <-
+  get_tidy_audio_analysis("3UmaczJpikHgJFyBTAJVoz") |> # Change URI.
+  compmus_align(bars, segments) |>                     # Change `bars`
+  select(bars) |>                                      #   in all three
+  unnest(bars) |>                                      #   of these lines.
+  mutate(
+    pitches =
+      map(segments,
+        compmus_summarise, pitches,
+        method = "rms", norm = "euclidean"              # Change summary & norm.
+      )
+  ) |>
+  mutate(
+    timbre =
+      map(segments,
+        compmus_summarise, timbre,
+        method = "rms", norm = "euclidean"              # Change summary & norm.
+      )
+  )
+
+stan |>
+  compmus_self_similarity(timbre, "cosine") |> 
+  ggplot(
+    aes(
+      x = xstart + xduration / 2,
+      width = xduration,
+      y = ystart + yduration / 2,
+      height = yduration,
+      fill = d
+    )
+  ) +
+  geom_tile() +
+  coord_fixed() +
+  scale_fill_viridis_c(guide = "none") +
+  theme_classic() +
+  labs(x = "", y = "")
+```
+
+Chordograms
+=====================================
+
+Column {data-width= 400}
+----------------------
+
+### Iintersting things
+text about the imagess
+Dit is allemaal wat bullshit om ff te kijken hoe dit er uit zie t watn ik heb geen idee lallamlaflasdfioasfjiosdjfio
+
+Column {.tabset}
+--------------------------------
+
+### Key histogram
+```{r}
+
+
+```
+
+
 ```{r}
 circshift <- function(v, n) {
   if (n == 0) v else c(tail(v, n), head(v, -n))
@@ -218,9 +411,13 @@ key_templates <-
     "B:maj", circshift(major_key, 11),
     "D#:min", circshift(minor_key, 3)
   )
+```
 
-twenty_five <-
-  get_tidy_audio_analysis("5UVsbUV0Kh033cqsZ5sLQi") |>
+
+### Mirrors by Justin Timberlake
+```{r}
+mirrors <-
+  get_tidy_audio_analysis("4rHZZAmHpZrA3iH5zx8frV") |>
   compmus_align(sections, segments) |>
   select(sections) |>
   unnest(sections) |>
@@ -232,7 +429,7 @@ twenty_five <-
       )
   )
 
-twenty_five |> 
+mirrors |> 
   compmus_match_pitch_template(
     key_templates,         # Change to chord_templates if descired
     method = "euclidean",  # Try different distance metrics
@@ -245,38 +442,86 @@ twenty_five |>
   scale_fill_viridis_c(guide = "none") +
   theme_minimal() +
   labs(x = "Time (s)", y = "")
+```
 
+### Stan by Eminem
+```{r}
+stan <-
+  get_tidy_audio_analysis("3UmaczJpikHgJFyBTAJVoz") |>
+  compmus_align(sections, segments) |>
+  select(sections) |>
+  unnest(sections) |>
+  mutate(
+    pitches =
+      map(segments,
+        compmus_summarise, pitches,
+        method = "mean", norm = "manhattan"
+      )
+  )
+
+stan |> 
+  compmus_match_pitch_template(
+    key_templates,         # Change to chord_templates if descired
+    method = "euclidean",  # Try different distance metrics
+    norm = "manhattan"     # Try different norms
+  ) |>
+  ggplot(
+    aes(x = start + duration / 2, width = duration, y = name, fill = d)
+  ) +
+  geom_tile() +
+  scale_fill_viridis_c(guide = "none") +
+  theme_minimal() +
+  labs(x = "Time (s)", y = "")
 ```
 
 
 
-### Week 11
-```{r}
-graveola <- get_tidy_audio_analysis("6PJasPKAzNLSOzxeAH33j2")
+Tempograms/Dendograms
+==================================
 
-graveola |>
+Column {data-width= 400}
+----------------------
+
+### Iintersting things
+text about the imagess
+Dit is allemaal wat bullshit om ff te kijken hoe dit er uit zie t watn ik heb geen idee lallamlaflasdfioasfjiosdjfio
+
+Column {.tabset}
+--------------------------------
+### Mirrors by Justin Timberlake
+```{r}
+mirrors <- get_tidy_audio_analysis("4rHZZAmHpZrA3iH5zx8frV")
+
+mirrors |>
   tempogram(window_size = 8, hop_size = 1, cyclic = FALSE) |>
   ggplot(aes(x = time, y = bpm, fill = power)) +
   geom_raster() +
   scale_fill_viridis_c(guide = "none") +
   labs(x = "Time (s)", y = "Tempo (BPM)") +
   theme_classic()
+```
 
-graveola |>
-  tempogram(window_size = 8, hop_size = 1, cyclic = TRUE) |>
+### Stan by Eminem
+```{r}
+stan <- get_tidy_audio_analysis("3UmaczJpikHgJFyBTAJVoz")
+
+stan |>
+  tempogram(window_size = 8, hop_size = 1, cyclic = FALSE) |>
   ggplot(aes(x = time, y = bpm, fill = power)) +
   geom_raster() +
   scale_fill_viridis_c(guide = "none") +
   labs(x = "Time (s)", y = "Tempo (BPM)") +
   theme_classic()
-
 ```
 
+Conclusion and end toughts
+==================================
 
 
 
-### Week 12
-```{r}
 
-```
+
+
+
+
 

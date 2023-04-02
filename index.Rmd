@@ -45,6 +45,7 @@ Additionally, the 2010s marked a time of significant social and cultural change,
 
 Column {.tabset}
 --------------------------------
+
 ### Tempo Distribution differences
 ```{r}
 ggplot(height=400, width=500) +
@@ -62,8 +63,6 @@ ggplot(height=600, width=5600) +
   labs(title="Energy vs. Valence", x="Energy", y="Valence") +
   scale_color_manual(values=c("blue", "green"))
 ```
-
-
 
 Chromagrams
 ============================================
@@ -129,7 +128,6 @@ stan |>
   scale_fill_viridis_c()
 ```
 
-
 Ceptograms
 ============================================
 
@@ -142,6 +140,7 @@ Dit is allemaal wat bullshit om ff te kijken hoe dit er uit zie t watn ik heb ge
 
 Column {.tabset}
 --------------------------------
+
 ### Mirrors by Justin Timberlake
 ```{r}
 mirrors <-
@@ -231,6 +230,7 @@ Dit is allemaal wat bullshit om ff te kijken hoe dit er uit zie t watn ik heb ge
 
 Column {.tabset}
 --------------------------------
+
 ### Mirrors by Justin Timberlake
 ```{r}
 mirrors <-
@@ -324,13 +324,6 @@ Dit is allemaal wat bullshit om ff te kijken hoe dit er uit zie t watn ik heb ge
 Column {.tabset}
 --------------------------------
 
-### Key histogram
-```{r}
-
-
-```
-
-
 ```{r}
 circshift <- function(v, n) {
   if (n == 0) v else c(tail(v, n), head(v, -n))
@@ -419,7 +412,6 @@ key_templates <-
   )
 ```
 
-
 ### Mirrors by Justin Timberlake
 ```{r}
 mirrors <-
@@ -486,37 +478,12 @@ Tempograms/Dendrograms
 Column {data-width= 400}
 ----------------------
 
-### Text about the images
+### Text about the dendrogram and tempograms
 text about the imagess
 Dit is allemaal wat bullshit om ff te kijken hoe dit er uit zie t watn ik heb geen idee lallamlaflasdfioasfjiosdjfio
 
 Column {.tabset}
 --------------------------------
-### Mirrors by Justin Timberlake
-```{r}
-mirrors <- get_tidy_audio_analysis("4rHZZAmHpZrA3iH5zx8frV")
-
-mirrors |>
-  tempogram(window_size = 8, hop_size = 1, cyclic = FALSE) |>
-  ggplot(aes(x = time, y = bpm, fill = power)) +
-  geom_raster() +
-  scale_fill_viridis_c(guide = "none") +
-  labs(x = "Time (s)", y = "Tempo (BPM)") +
-  theme_classic()
-```
-
-### Stan by Eminem
-```{r}
-stan <- get_tidy_audio_analysis("3UmaczJpikHgJFyBTAJVoz")
-
-stan |>
-  tempogram(window_size = 8, hop_size = 1, cyclic = FALSE) |>
-  ggplot(aes(x = time, y = bpm, fill = power)) +
-  geom_raster() +
-  scale_fill_viridis_c(guide = "none") +
-  labs(x = "Time (s)", y = "Tempo (BPM)") +
-  theme_classic()
-```
 
 ### Dendrogram clustering
 ```{r}
@@ -524,18 +491,18 @@ out2010 <-
   get_playlist_audio_features("", "37i9dQZF1DX5Ejj0EkURtP") |>
   add_audio_analysis() |>
   mutate(
-    segments = map2(segments, key, compmus_c_transpose),
-    pitches =
-      map(segments,
-        compmus_summarise, pitches,
-        method = "mean", norm = "manhattan"
-      ),
-    timbre =
-      map(
-        segments,
-        compmus_summarise, timbre,
-        method = "mean"
-      )
+	segments = map2(segments, key, compmus_c_transpose),
+	pitches =
+  	map(segments,
+    	compmus_summarise, pitches,
+    	method = "mean", norm = "manhattan"
+  	),
+	timbre =
+  	map(
+    	segments,
+    	compmus_summarise, timbre,
+    	method = "mean"
+  	)
   ) |>
   mutate(pitches = map(pitches, compmus_normalise, "clr")) |>
   mutate_at(vars(pitches, timbre), map, bind_rows) |>
@@ -543,36 +510,63 @@ out2010 <-
 
 out2010_juice <-
   recipe(
-    track.name ~
-      danceability +
-      energy +
-      loudness +
-      speechiness +
-      acousticness +
-      instrumentalness +
-      liveness +
-      valence +
-      tempo +
-      duration +
-      C + `C#|Db` + D + `D#|Eb` +
-      E + `F` + `F#|Gb` + G +
-      `G#|Ab` + A + `A#|Bb` + B +
-      c01 + c02 + c03 + c04 + c05 + c06 +
-      c07 + c08 + c09 + c10 + c11 + c12,
-    data = out2010
+	track.name ~
+  	danceability +
+  	energy +
+  	loudness +
+  	speechiness +
+  	acousticness +
+  	instrumentalness +
+  	liveness +
+  	valence +
+  	tempo +
+  	duration +
+  	C + `C#|Db` + D + `D#|Eb` +
+  	E + `F` + `F#|Gb` + G +
+  	`G#|Ab` + A + `A#|Bb` + B +
+  	c01 + c02 + c03 + c04 + c05 + c06 +
+  	c07 + c08 + c09 + c10 + c11 + c12,
+	data = out2010
   ) |>
   step_center(all_predictors()) |>
-  step_scale(all_predictors()) |> 
+  step_scale(all_predictors()) |>
   prep(out2010 |> mutate(track.name = str_trunc(track.name, 20))) |>
   juice() |>
   column_to_rownames("track.name")
 
 out2010_dist <- dist(out2010_juice, method = "euclidean")
-out2010_dist |> 
-  hclust(method = "complete") |> 
+out2010_dist |>
+  hclust(method = "complete") |>
   dendro_data() |>
   ggdendrogram()
 ```
+
+### Mirrors by Justin Timberlake
+```{r}
+#mirrors <- get_tidy_audio_analysis("4rHZZAmHpZrA3iH5zx8frV")
+#
+#mirrors |>
+#  tempogram(window_size = 8, hop_size = 1, cyclic = TRUE) |>
+#  ggplot(aes(x = time, y = bpm, fill = power)) +
+#  geom_raster() +
+#  scale_fill_viridis_c(guide = "none") +
+#  labs(x = "Time (s)", y = "Tempo (BPM)") +
+#  theme_classic()
+```
+
+### Stan by Eminem
+```{r}
+#stan <- get_tidy_audio_analysis("3UmaczJpikHgJFyBTAJVoz")
+#
+#stan |>
+#  tempogram(window_size = 8, hop_size = 1, cyclic = FALSE) |>
+#  ggplot(aes(x = time, y = bpm, fill = power)) +
+#  geom_raster() +
+#  scale_fill_viridis_c(guide = "none") +
+#  labs(x = "Time (s)", y = "Tempo (BPM)") +
+#  theme_classic()
+```
+
 
 Conclusion and Thoughts
 ==================================

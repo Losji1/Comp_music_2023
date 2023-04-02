@@ -129,9 +129,7 @@ Column {data-width= 400}
 ----------------------
 
 ### Text about the chromagrams
-text about the imagess
-Dit is allemaal wat bullshit om ff te kijken hoe dit er uit zie t watn ik heb geen idee lallamlaflasdfioasfjiosdjfio
-
+In the chromagrams we see clearly which notes occur most in the two songs, what is immediately noticeable is that there is a big difference between the notes of the two songs, the song of Eminem uses mainly the low notes which is more expected in rap and the song Mirrors uses mainly the higher (happier) notes. Mirrors also uses more minor notes than Stan.
 
 
 Ceptograms
@@ -220,8 +218,8 @@ Column {data-width= 400}
 ----------------------
 
 ### Text about the ceptograms
-text about the imagess
-Dit is allemaal wat bullshit om ff te kijken hoe dit er uit zie t watn ik heb geen idee lallamlaflasdfioasfjiosdjfio
+As can be seen, there is not really a very big and obvious difference between the two plots. What is noticeable is that c02 and c03 is very high in the beginning with Stan and in the end which makes sense because that has more pace than the middle section and it also ends with more pace again. With Mirrors, c01 through c03 is quite present, which is quite expected because the song has a very similar tempo and mostly the same notes as well.
+
 
 
 Self-Similarity Matrices
@@ -314,9 +312,7 @@ Column {data-width= 400}
 ----------------------
 
 ### Text about the SSM
-text about the imagess
-Dit is allemaal wat bullshit om ff te kijken hoe dit er uit zie t watn ik heb geen idee lallamlaflasdfioasfjiosdjfio
-
+We can see with both Mirrors and Stan exactly when almost most of the instruments are used at once. Which is an interesting occurrence because with Stan you hear this quite clearly at the beginning but with Mirrors it is more difficult to figure out exactly when this happens. This is probably because the song uses more instruments than Stan anyway.
 
 Chordograms
 =====================================
@@ -476,10 +472,7 @@ Column {data-width= 400}
 ----------------------
 
 ### Text about the chordograms
-text about the imagess
-Dit is allemaal wat bullshit om ff te kijken hoe dit er uit zie t watn ik heb geen idee lallamlaflasdfioasfjiosdjfio
-
-
+There is an obvious difference in these plots. And also confirms expectations. Mirrors is using a lot more notes (keys) than Stan. And there is a moment when everything comes at once in Stan which is quite obvious in the plot (around 300 s). This also shows a difference between rap and more cheerful song with higher danceability. What also leads from Stan's plot is that the song is mostly in Major notes, which was also confirmed earlier.
 
 Tempograms/Dendrograms
 ==================================
@@ -573,8 +566,9 @@ Column {data-width= 400}
 ----------------------
 
 ### Text about the dendrogram and tempograms
-text about the imagess
-Dit is allemaal wat bullshit om ff te kijken hoe dit er uit zie t watn ik heb geen idee lallamlaflasdfioasfjiosdjfio
+Here we have the hierarchical cluster of the 2010 corpus. I used the "complete" method in the code otherwise the dendrogram was much more inefficient (it isn't best now too but I can not seem to fix that..).
+
+I also have a problem with the tempograms of the songs, because if I load the code separately the code works fine, but when I knit the project it keeps in a loop and eventually stops knitting... I really don't know how to fix that. I do have the code in the comments in de .Rmd file.
 
 
 Conclusion and Thoughts
